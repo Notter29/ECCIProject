@@ -1,0 +1,106 @@
+.historial-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  padding: clamp(16px, 2vw, 26px);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(18, 52, 90, .08);
+}
+
+.historial-header, .detalle-sesion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.historial-header { border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.historial-title { color: var(--ecci-navy); font: 700 .9rem 'Barlow', sans-serif; }
+.btn-recargar, .btn-seleccionar-sesion, .btn-explicar-noah {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid #bdc9d5;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ecci-navy);
+  font: 600 .8rem 'Barlow', sans-serif;
+  cursor: pointer;
+}
+.btn-recargar:hover:not(:disabled), .btn-seleccionar-sesion:hover,
+.btn-seleccionar-sesion[aria-pressed="true"] { border-color: var(--ecci-blue); background: #edf4fa; }
+.btn-recargar:disabled, .btn-explicar-noah:disabled { opacity: .5; cursor: not-allowed; }
+
+.estadisticas { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); }
+.stat-card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px; border-right: 1px solid var(--line); }
+.stat-card:last-child { border-right: 0; }
+.stat-valor { color: var(--ecci-navy); font: 700 1.5rem 'IBM Plex Mono', monospace; }
+.stat-label { color: var(--muted); font-size: .72rem; text-align: center; }
+.stat-exitoso .stat-valor { color: var(--success); }
+.stat-fallo .stat-valor { color: var(--danger); }
+.stat-pct .stat-valor { color: var(--ecci-blue); }
+
+.barra-exito-wrapper { display: flex; align-items: center; gap: 10px; }
+.barra-label { min-width: 140px; color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.barra-fondo { flex: 1; height: 10px; overflow: hidden; border-radius: 2px; background: #e7edf2; }
+.barra-relleno { height: 100%; border-radius: 2px; transition: width .6s ease; }
+.barra-excelente { background: var(--success); }
+.barra-buena { background: var(--ecci-blue); }
+.barra-regular { background: #c18a19; }
+.barra-baja { background: var(--danger); }
+.barra-pct { min-width: 40px; color: var(--muted); font: 600 .8rem 'IBM Plex Mono', monospace; text-align: right; }
+.tip-educativo { padding: 10px 14px; border-left: 3px solid var(--ecci-yellow); background: #f2f6fa; color: var(--ink); font-size: .85rem; line-height: 1.5; }
+
+.tabla-wrapper { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+.tabla-sesiones { width: 100%; border-collapse: collapse; font: .82rem 'Barlow', sans-serif; }
+.tabla-sesiones thead tr { background: #edf2f6; }
+.tabla-sesiones th { padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--ecci-navy); font-size: .72rem; text-align: left; }
+.tabla-sesiones tbody tr { border-bottom: 1px solid #e8edf2; }
+.tabla-sesiones tbody tr:last-child { border-bottom: 0; }
+.tabla-sesiones tbody tr:hover, .tabla-sesiones tbody tr.fila-activa { background: #f6f8fa; }
+.tabla-sesiones tbody tr.fila-seleccionada { background: #fff8df; }
+.tabla-sesiones td { padding: 10px 12px; color: var(--ink); }
+.tabla-sesiones td.col-id, .tabla-sesiones td.col-fecha { color: var(--muted); }
+.tabla-sesiones td.col-escenario { color: var(--ecci-navy); font-weight: 600; }
+.col-detalle { white-space: nowrap; }
+.tabla-eventos { font-size: .8rem; }
+
+.badge { padding: 3px 8px; border: 1px solid #d6e0e8; border-radius: 20px; font-size: .72rem; font-weight: 600; }
+.badge-finalizada { background: #edf2f6; color: var(--muted); }
+.badge-activa { border-color: #b9d9ce; background: #e7f3ef; color: var(--success); }
+.puntaje-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: .75rem; font-weight: 700; }
+.puntaje-excelente { border: 1px solid #b9d9ce; background: #e7f3ef; color: var(--success); }
+.puntaje-bueno { border: 1px solid #b8d1e4; background: #edf4fa; color: var(--ecci-blue); }
+.puntaje-regular { border: 1px solid #e5d3a8; background: #fbf6e5; color: #9b6810; }
+.puntaje-bajo { border: 1px solid #e7b7b0; background: #fff1ee; color: var(--danger); }
+.puntaje-sin-datos { color: var(--muted); }
+
+.detalle-sesion { margin-top: 4px; padding-top: 18px; border-top: 1px solid var(--line); }
+.detalle-sesion-header { margin-bottom: 14px; }
+.detalle-sesion-header h3 { margin: 0; color: var(--ecci-navy); font-size: 1rem; }
+.detalle-sesion-header p { margin: 4px 0 0; color: var(--muted); font-size: .82rem; }
+.btn-explicar-noah { border-color: var(--ecci-navy); background: var(--ecci-navy); color: #fff; }
+.btn-explicar-noah:hover:not(:disabled) { background: var(--ecci-blue); }
+.detalle-metricas { display: flex; flex-wrap: wrap; gap: 22px; padding: 12px 0; color: var(--muted); font-size: .82rem; }
+.detalle-metricas strong { color: var(--ecci-navy); font: 600 .85rem 'IBM Plex Mono', monospace; }
+.detalle-sin-eventos { color: var(--muted); font-size: .88rem; }
+
+.estado-vacio, .estado-cargando, .estado-error { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 30px; text-align: center; }
+.estado-vacio p { margin: 0; color: var(--muted); font-size: .85rem; }
+.vacio-icono { font-size: 2.5rem; }
+.estado-cargando { flex-direction: row; color: var(--muted); font-size: .85rem; }
+.spinner { width: 20px; height: 20px; border: 3px solid #dce4ec; border-top-color: var(--ecci-blue); border-radius: 50%; animation: girar .8s linear infinite; }
+.estado-error { padding: 12px; border: 1px solid #e7b7b0; border-radius: 4px; background: #fff1ee; color: var(--danger); font-size: .85rem; }
+@keyframes girar { to { transform: rotate(360deg); } }
+
+@media (max-width: 700px) {
+  .estadisticas { grid-template-columns: repeat(2, 1fr); }
+  .stat-card:nth-child(2) { border-right: 0; }
+  .stat-card:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+  .barra-exito-wrapper { flex-wrap: wrap; }
+  .barra-label { min-width: 0; white-space: normal; }
+  .barra-fondo { min-width: 60%; }
+  .detalle-sesion-header { align-items: flex-start; flex-direction: column; }
+  .detalle-metricas { gap: 12px; }
+}

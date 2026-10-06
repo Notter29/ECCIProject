@@ -1,0 +1,71 @@
+<div class="monitor-wrapper">
+  <!-- Encabezado del monitor biomédico -->
+  <header class="monitor-header">
+    <div class="brand-badge">
+      <span class="pulse-dot" [class.active]="simulando"></span>
+      <div>
+        <strong>MONITOR DE SEÑALES BIOMÉDICAS — GALIX PACESTAR</strong>
+        <small>Escala de barrido continuo (25 mm/s) · Barrido de osciloscopio en tiempo real</small>
+      </div>
+    </div>
+
+    <div class="monitor-metrics">
+      <div class="metric">
+        <span class="label">RATE</span>
+        <strong class="val">{{ ppm }} <small>ppm</small></strong>
+      </div>
+      <div class="metric">
+        <span class="label">OUTPUT</span>
+        <strong class="val">{{ corrienteMa | number:'1.1-1' }} <small>mA</small></strong>
+      </div>
+      <div class="metric">
+        <span class="label">SENSITIVITY</span>
+        <strong class="val">{{ sensibilidadMv | number:'1.1-1' }} <small>mV</small></strong>
+      </div>
+      <div class="metric">
+        <span class="label">PACE</span>
+        <strong class="led pace-led" [class.active]="paceIndicatorActive">
+          {{ paceIndicatorActive ? 'FLASH' : '—' }}
+        </strong>
+      </div>
+      <div class="metric">
+        <span class="label">SENSE</span>
+        <strong class="led sense-led" [class.active]="senseIndicatorActive">
+          {{ senseIndicatorActive ? 'SENSE' : '—' }}
+        </strong>
+      </div>
+      <button type="button" class="audio-toggle" (click)="toggleAudio()" [class.active]="audioEnabled" title="Activar/desactivar tono de pulso cardíaco">
+        {{ audioEnabled ? '🔊 Sonido' : '🔇 Silencio' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- Área de animación en vivo Canvas -->
+  <div class="canvas-container">
+    <canvas #ecgCanvas class="ecg-canvas"></canvas>
+
+    @if (!simulando) {
+      <div class="status-overlay">
+        <span>⏸ SIMULACIÓN EN PAUSA O EN ESPERA</span>
+        <small>Presiona <strong>▶ Iniciar práctica</strong> en el panel de control para activar el barrido continuo.</small>
+      </div>
+    }
+
+    @if (simulando && !captureSucceeded) {
+      <div class="capture-warning-overlay">
+        ⚠️ PÉRDIDA DE CAPTURA EN EL MODELO — OUTPUT &lt; {{ educationalCaptureThreshold.toFixed(1) }} mA
+      </div>
+    }
+  </div>
+
+  <!-- Pie del monitor con información del escenario -->
+  <footer class="monitor-footer">
+    <span class="status-lamp" [class.green]="simulando"></span>
+    <span>{{ simulando ? 'Barrido de trazado en tiempo real activo' : 'Barrido detenido' }}</span>
+    <span class="divider"></span>
+    <span>Escenario: <strong>{{ escenario }}</strong></span>
+    <span class="divider"></span>
+    <span>Modo: <strong>{{ modo }}</strong></span>
+    <span class="disclaimer">VIRTUAL · USO EDUCATIVO DE INGENIERÍA BIOMÉDICA</span>
+  </footer>
+</div>

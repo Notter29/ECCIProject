@@ -1,0 +1,330 @@
+@if (!isAuthenticated) {
+  <div class="auth-page">
+    <app-auth-panel (authenticated)="onAuthenticated($event)" />
+    <p class="auth-warning">Simulador académico: no es un dispositivo médico ni debe utilizarse para diagnosticar o tratar personas.</p>
+  </div>
+} @else {
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" (click)="selectView('inicio'); $event.preventDefault()">
+        <span class="brand-icon">ECCI</span>
+        <span class="brand-copy">
+          <strong>GALIX PACESTAR</strong>
+          <small>Universidad ECCI · Ingeniería Biomédica</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegación principal">
+        @for (item of navItems; track item.key) {
+          <button
+            type="button"
+            class="nav-button"
+            [class.active]="activeView === item.key"
+            (click)="selectView(item.key)">
+            {{ item.label }}
+          </button>
+        }
+      </nav>
+
+      <div class="user-bar">
+        <span>{{ user?.nombre }}</span>
+        <button type="button" class="logout-button" (click)="signOut()">Salir</button>
+      </div>
+    </header>
+
+    <div class="academy-banner" role="note">
+      Simulación educativa únicamente. Señales, parámetros y resultados son sintéticos; no representan mediciones clínicas ni deben usarse para decisiones sobre pacientes.
+    </div>
+
+    @if (errorMessage) {
+      <div class="global-error" role="alert">
+        <span>{{ errorMessage }}</span>
+        <button type="button" aria-label="Cerrar mensaje" (click)="errorMessage = ''">×</button>
+      </div>
+    }
+
+    @if (activeView === 'inicio') {
+      <main class="page-content">
+        <section class="welcome-card">
+          <div>
+            <p class="eyebrow">Laboratorio de simulación</p>
+            <h1>Simulador didáctico de marcapasos</h1>
+            <p>Explora, configura y observa señales ventriculares sintéticas del equipo de referencia Medtronic Model 53401.</p>
+            <button type="button" class="primary-button" (click)="selectView('simulador')">Abrir simulador</button>
+          </div>
+          <div class="device-summary">
+            <span class="device-kicker">EQUIPO DE REFERENCIA</span>
+            <strong>Medtronic</strong>
+            <span>Model 53401 · Cámara ventricular</span>
+            <span class="mode-chip">VVI / VOO</span>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Resumen de prácticas">
+          <article class="stat-card"><span>Prácticas guardadas</span><strong>{{ history.length }}</strong></article>
+          <article class="stat-card"><span>Eventos registrados</span><strong>{{ eventCount }}</strong></article>
+          <article class="stat-card"><span>Escenarios practicados</span><strong>{{ practicedScenarioCount }}</strong></article>
+          <article class="stat-card"><span>Última actividad</span><strong class="stat-last">{{ history[0] ? (history[0].fecha_creacion | date:'dd/MM/yy HH:mm') : 'Sin registros' }}</strong></article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="content-card">
+            <div class="section-heading"><h2>Accesos rápidos</h2><span>INICIO</span></div>
+            <div class="shortcut-grid">
+              <button type="button" (click)="selectView('equipo')"><strong>Conoce el equipo</strong><small>Consulta la referencia técnica</small></button>
+              <button type="button" (click)="selectView('simulador')"><strong>Simulador</strong><small>Configura y ejecuta una práctica</small></button>
+              <button type="button" (click)="selectView('señales')"><strong>Monitor de señales</strong><small>Observa ECG, PACE y SENSE</small></button>
+              <button type="button" (click)="selectView('ia')"><strong>Noah</strong><small>Consulta la guía educativa</small></button>
+              <button type="button" (click)="selectView('historial')"><strong>Historial</strong><small>Revisa tus prácticas guardadas</small></button>
+            </div>
+          </article>
+          <article class="content-card">
+            <div class="section-heading"><h2>Alcance de esta práctica</h2><span>ACADÉMICO</span></div>
+            <p>La aplicación representa digitalmente actividad ventricular, detección y pulsos virtuales en modos VVI y VOO. El pulso visible es una marca gráfica y no produce estimulación eléctrica.</p>
+            <p class="muted-copy">La regla de captura incorporada es una simplificación didáctica del programa, no un valor recomendado ni una especificación clínica del fabricante.</p>
+          </article>
+        </section>
+      </main>
+    }
+
+    @if (activeView === 'equipo') {
+      <main class="page-content">
+        <div class="section-heading"><h1>Conoce el equipo</h1><span>MODELO DE REFERENCIA</span></div>
+        <p class="page-intro">La referencia documental del proyecto es Medtronic Model 53401. La aplicación limita su simulación didáctica a una sola cámara ventricular en VVI y VOO.</p>
+        <section class="equipment-grid">
+          <article class="content-card">
+            <span class="doc-category">IDENTIFICACIÓN</span><h2>Medtronic Model 53401</h2>
+            <dl class="equipment-details">
+              <div><dt>Fabricante</dt><dd>Medtronic</dd></div>
+              <div><dt>Tipo</dt><dd>Marcapasos externo temporal monocameral</dd></div>
+              <div><dt>Alcance de software</dt><dd>Simulación ventricular en modos VVI / VOO</dd></div>
+              <div><dt>Estimulación documentada</dt><dd>Corriente constante</dd></div>
+              <div><dt>Alimentación de referencia</dt><dd>Dos baterías AA alcalinas de 1,5 V</dd></div>
+            </dl>
+            <p class="muted-copy">El equipo físico documenta otros modos, pero el programa no implementa AAI, AOO, estimulación auricular ni RAP.</p>
+          </article>
+          <article class="content-card">
+            <span class="doc-category">FLUJO DE SIMULACIÓN</span><h2>Actividad → detección → decisión</h2>
+            <div class="process-flow"><span>Actividad sintética</span><b>→</b><span>Detección VVI</span><b>→</b><span>PACE virtual</span><b>→</b><span>Respuesta ECG dibujada</span></div>
+            <p>En VVI, una actividad detectada inhibe el pulso programado; en VOO, el simulador genera pulsos periódicos sin inhibición por detección. Esta simplificación no reproduce todos los algoritmos del equipo real.</p>
+          </article>
+          <article class="content-card">
+            <span class="doc-category">CARACTERÍSTICAS DE REFERENCIA</span><h2>Datos físicos documentados</h2>
+            <dl class="equipment-details">
+              <div><dt>Peso</dt><dd>499 g</dd></div><div><dt>Dimensiones</dt><dd>20,27 × 6,68 × 4,14 cm</dd></div><div><dt>Vida útil de servicio indicada</dt><dd>7 años</dd></div>
+            </dl>
+            <p class="notice-small">Los datos describen el equipo de referencia según la especificación del proyecto, no el estado de ningún dispositivo conectado.</p>
+          </article>
+          <article class="content-card">
+            <span class="doc-category">COMPONENTES Y SEGURIDAD</span><h2>Contenido educativo</h2>
+            <p>Generador externo, controles, pantalla, compartimiento de baterías, conexiones, cable de paciente y sistema de estimulación son elementos que la investigación del equipo debe identificar.</p>
+            <p>No se genera ninguna alarma oficial ni se realizan pruebas eléctricas. Las instrucciones de operación, advertencias y riesgos deben consultarse en la guía de referencia oficial del fabricante.</p>
+            <a href="https://www.medtronic.com/" target="_blank" rel="noopener noreferrer">Consultar sitio oficial de Medtronic ↗</a>
+          </article>
+        </section>
+      </main>
+    }
+
+    @if (activeView === 'simulador' || activeView === 'señales') {
+      <main class="lab-layout" [class.signals-view]="activeView === 'señales'">
+        <section class="lab-main">
+          <app-monitor-ecg
+            [ppm]="rate"
+            [corrienteMa]="outputMa"
+            [sensibilidadMv]="sensitivityMv"
+            [simulando]="isRunning"
+            [escenario]="scenarioName"
+            [modo]="mode"
+            [pulseWidthMs]="pulseWidthMs"
+            (eventEmitted)="onMonitorEvent($event)" />
+
+
+          @if (activeView === 'simulador') {
+            <article class="control-card">
+              <div class="section-heading"><h2>Panel de control</h2><span>{{ currentSessionId ? 'SESIÓN #' + currentSessionId : 'NUEVA PRÁCTICA' }}</span></div>
+              <div class="control-grid">
+                <label class="control-field">
+                  <span>Escenario educativo</span>
+                  <select [ngModel]="scenarioName" [ngModelOptions]="{standalone: true}" (ngModelChange)="onScenarioChange($event)" [disabled]="currentSimulationId !== null">
+                    @for (item of scenarios; track item.name) { <option [value]="item.name">{{ item.name }}</option> }
+                  </select>
+                </label>
+                <label class="control-field">
+                  <span>Modo de estimulación</span>
+                  <select [ngModel]="mode" [ngModelOptions]="{standalone: true}" (ngModelChange)="onModeChange($event)">
+                    <option value="VVI">VVI · a demanda</option>
+                    <option value="VOO">VOO · asíncrono</option>
+                  </select>
+                </label>
+
+                <div class="control-field range-field">
+                  <div class="control-label-row"><label for="rate-slider">RATE / FRECUENCIA</label><strong>{{ rate }} <small>ppm</small></strong></div>
+                  <div class="range-row"><button type="button" aria-label="Disminuir frecuencia" (click)="adjustRate(-1)" [disabled]="rate <= 30">−</button><input id="rate-slider" type="range" min="30" max="200" step="1" [ngModel]="rate" [ngModelOptions]="{standalone: true}" (ngModelChange)="onRateChange($event)"><input aria-label="Frecuencia en ppm" type="number" min="30" max="200" step="1" [ngModel]="rate" [ngModelOptions]="{standalone: true}" (ngModelChange)="onRateChange($event)"><button type="button" aria-label="Aumentar frecuencia" (click)="adjustRate(1)" [disabled]="rate >= 200">+</button></div>
+                  <small>30–200 ppm · incrementos según rangos documentados</small>
+                </div>
+
+                <div class="control-field range-field">
+                  <div class="control-label-row"><label for="output-slider">OUTPUT / SALIDA VIRTUAL</label><strong>{{ outputMa | number:'1.1-1' }} <small>mA</small></strong></div>
+                  <div class="range-row"><input id="output-slider" type="range" min="0.1" max="25" step="0.1" [ngModel]="outputMa" [ngModelOptions]="{standalone: true}" (ngModelChange)="onOutputChange($event)"><input aria-label="Salida virtual en miliamperios" type="number" min="0.1" max="25" step="0.1" [ngModel]="outputMa" [ngModelOptions]="{standalone: true}" (ngModelChange)="onOutputChange($event)"></div>
+                  <small>0,1–25 mA · valor representado, no hay salida eléctrica</small>
+                </div>
+
+                <div class="control-field range-field">
+                  <div class="control-label-row"><label for="sensitivity-slider">SENSITIVITY / SENSIBILIDAD</label><strong>{{ sensitivityMv | number:'1.1-1' }} <small>mV</small></strong></div>
+                  <div class="range-row"><input id="sensitivity-slider" type="range" min="0.4" max="20" step="0.1" [ngModel]="sensitivityMv" [ngModelOptions]="{standalone: true}" (ngModelChange)="onSensitivityChange($event)"><input aria-label="Sensibilidad en milivoltios" type="number" min="0.4" max="20" step="0.1" [ngModel]="sensitivityMv" [ngModelOptions]="{standalone: true}" (ngModelChange)="onSensitivityChange($event)"></div>
+                  <small>0,4–20 mV · valor menor representa mayor sensibilidad en este modelo</small>
+                </div>
+
+                <div class="control-field fixed-field">
+                  <span>PULSE WIDTH / DURACIÓN</span><strong>{{ pulseWidthMs }} ms · FIJO</strong>
+                  <small>Valor de referencia fijo según especificación</small>
+                </div>
+                <div class="control-field fixed-field">
+                  <span>CAPTURA DEL MODELO</span><strong>{{ captureSucceeded ? 'Respuesta virtual habilitada' : 'Sin respuesta virtual' }}</strong>
+                  <small>Regla pedagógica interna: salida ≥ {{ educationalCaptureThreshold.toFixed(1) }} mA; no es un umbral clínico.</small>
+                </div>
+              </div>
+
+              <div class="sim-controls">
+                @if (!currentSimulationId) {
+                  <button type="button" class="primary-button" (click)="startPractice()" [disabled]="isSaving">▶ Iniciar práctica</button>
+                } @else {
+                  <button type="button" class="primary-button" (click)="togglePause()" [disabled]="isSaving || status === 'stopped'">{{ isRunning ? 'Ⅱ Pausar' : status === 'paused' ? '▶ Reanudar' : '■ Detenida' }}</button>
+                  <button type="button" class="secondary-button" (click)="stopPractice()" [disabled]="status === 'stopped' || isSaving">■ Detener</button>
+                  <button type="button" class="secondary-button" (click)="restartPractice()" [disabled]="isSaving">↻ Reiniciar trazas</button>
+                  <button type="button" class="save-button" (click)="savePractice()" [disabled]="isSaving || !conclusion.trim()">{{ isSaving ? 'Guardando…' : '💾 Guardar simulación' }}</button>
+                }
+              </div>
+              @if (currentSimulationId) {
+                <div class="reflection-fields">
+                  <label>Resultado de la práctica<select [(ngModel)]="practiceResult" [ngModelOptions]="{standalone: true}"><option>Correcto</option><option>Incorrecto</option><option>Requiere revisión</option></select></label>
+                  <label>Observaciones<textarea rows="2" maxlength="2000" [(ngModel)]="observations" [ngModelOptions]="{standalone: true}" placeholder="Registra lo que observaste en la señal y los indicadores."></textarea></label>
+                  <label>Conclusión de la práctica<textarea rows="2" maxlength="2000" [(ngModel)]="conclusion" [ngModelOptions]="{standalone: true}" placeholder="Escribe tu propia conclusión; Noah no la genera por ti."></textarea></label>
+                  <label class="evidence-field">Subir evidencia opcional<input type="file" accept="image/jpeg,image/png,image/webp" (change)="onEvidenceSelected($event)"><small>{{ evidenceFile ? evidenceFile.name : 'JPEG, PNG o WebP · máximo 5 MB. No adjuntes información de pacientes.' }}</small></label>
+                </div>
+              }
+            </article>
+          }
+
+          <article class="events-card">
+            <div class="section-heading"><h2>Eventos de la práctica</h2><span>{{ events.length }} EN ESTA SESIÓN</span></div>
+            @if (latestEvents.length) {
+              <div class="event-list">
+                @for (item of latestEvents; track $index) {
+                  <div class="event-row"><time>{{ item.time }}</time><strong [class]="('event-' + item.type.toLowerCase())">{{ item.type }}</strong><span>{{ item.description }}</span></div>
+                }
+              </div>
+            } @else {
+              <p class="empty-state">Los eventos de detección y estimulación aparecerán aquí cuando inicie la práctica.</p>
+            }
+          </article>
+        </section>
+
+        @if (activeView === 'simulador') {
+          <aside class="noah-column">
+            <app-noah-chat
+              [escenario]="scenarioName"
+              [ppm]="rate"
+              [corrienteMa]="outputMa"
+              [sensibilidadMv]="sensitivityMv"
+              [sesionId]="currentSessionId" />
+            <article class="side-info-card">
+              <h3>Escenario actual</h3>
+              <p>{{ scenario.description }}</p>
+              <small>La señal mostrada es sintética y se genera localmente en el navegador.</small>
+            </article>
+          </aside>
+        }
+      </main>
+    }
+
+    @if (activeView === 'ia') {
+      <main class="page-content tutor-page">
+        <div class="section-heading"><h1>Tutor de simulación Noah</h1><span>GUÍA EDUCATIVA</span></div>
+        <p class="page-intro">Noah responde sobre el uso del simulador y el material incorporado. No modifica parámetros ni genera conclusiones de práctica.</p>
+        <app-noah-chat
+          [escenario]="selectedHistory?.nombre_escenario ?? scenarioName"
+          [ppm]="selectedHistory?.frecuencia_ppm ?? rate"
+          [corrienteMa]="selectedHistory?.corriente_ma ?? outputMa"
+          [sensibilidadMv]="selectedHistory?.sensibilidad_mv ?? sensitivityMv"
+          [sesionId]="selectedHistory?.id_sesion ?? currentSessionId" />
+      </main>
+    }
+
+    @if (activeView === 'biblioteca') {
+      <main class="page-content">
+        <div class="section-heading"><h1>Biblioteca técnica</h1><span>FUENTES DE REFERENCIA</span></div>
+        <p class="page-intro">Material técnico y definiciones aprobadas que enmarcan la simulación educativa. Noah no navega libremente por Internet.</p>
+        <div class="library-grid">
+          <article class="content-card"><span class="doc-category">EQUIPO</span><h2>Medtronic Model 53401</h2><p>Equipo de referencia: marcapasos externo temporal monocameral. Esta aplicación simula únicamente comportamiento ventricular.</p><a href="https://www.medtronic.com/" target="_blank" rel="noopener noreferrer">Sitio oficial de Medtronic ↗</a></article>
+          <article class="content-card"><span class="doc-category">ESPECIFICACIÓN DEL PROYECTO</span><h2>Alcance VVI / VOO</h2><p>Frecuencia 30–200 ppm, salida 0,1–25 mA, sensibilidad 0,4–20 mV y duración fija de 1,5 ms. Los controles representan valores virtuales.</p><a href="https://www.medtronic.com/" target="_blank" rel="noopener noreferrer">Referencia del fabricante ↗</a></article>
+          <article class="content-card"><span class="doc-category">SEÑALES SINTÉTICAS</span><h2>ECG, PACE y SENSE</h2><p>Las curvas son formas matemáticas simplificadas para relacionar actividad sintética, detección e impulsos gráficos; no reproducen ECG clínico.</p><small>Fuente: especificaciones académicas incorporadas al proyecto.</small></article>
+        </div>
+      </main>
+    }
+
+    @if (activeView === 'mantenimiento') {
+      <main class="page-content">
+        <div class="section-heading"><h1>Mantenimiento y evaluación didáctica</h1><span>LISTA DE CHEQUEO</span></div>
+        <p class="page-intro">Lista educativa de inspección. No constituye mantenimiento, prueba de seguridad ni certificación de un equipo real.</p>
+        <div class="maintenance-layout">
+          <article class="content-card checklist-card">
+            <div class="checklist-heading">
+              <div><h2>Elementos para revisar en el material de práctica</h2><p>{{ checklistCompleted }} de 11 elementos · {{ checklistCompletionPercent }} % completado</p></div>
+              <button type="button" class="table-action" (click)="resetChecklist()" [disabled]="checklistCompleted === 0">Reiniciar lista</button>
+            </div>
+            <div class="checklist-progress" role="progressbar" aria-label="Avance de la lista didáctica"
+              [attr.aria-valuenow]="checklistCompletionPercent" aria-valuemin="0" aria-valuemax="100">
+              <span [style.width.%]="checklistCompletionPercent"></span>
+            </div>
+            <label><input type="checkbox" [(ngModel)]="checklist.visual" [ngModelOptions]="{standalone: true}"> Inspección visual</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.casing" [ngModelOptions]="{standalone: true}"> Carcasa</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.controls" [ngModelOptions]="{standalone: true}"> Controles</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.display" [ngModelOptions]="{standalone: true}"> Pantalla e indicadores</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.battery" [ngModelOptions]="{standalone: true}"> Compartimiento de baterías</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.connectors" [ngModelOptions]="{standalone: true}"> Conectores</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.cables" [ngModelOptions]="{standalone: true}"> Cables</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.configuration" [ngModelOptions]="{standalone: true}"> Configuración de la práctica</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.detection" [ngModelOptions]="{standalone: true}"> Detección sintética</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.pacing" [ngModelOptions]="{standalone: true}"> Estimulación virtual</label>
+            <label><input type="checkbox" [(ngModel)]="checklist.indicators" [ngModelOptions]="{standalone: true}"> Indicadores gráficos PACE / SENSE</label>
+          </article>
+          <article class="content-card">
+            <h2>Prueba funcional simulada</h2>
+            <ol class="test-steps"><li>Identifica el equipo de referencia.</li><li>Revisa los elementos en la lista didáctica.</li><li>Configura VVI o VOO y los parámetros permitidos.</li><li>Inicia un escenario sintético.</li><li>Observa ECG, PACE y SENSE.</li><li>Escribe observaciones y tu propia conclusión.</li><li>Guarda la práctica en el historial.</li></ol>
+            <p class="notice-small">Para evaluación técnica real se requieren instrumentos, protocolos y supervisión institucional. Esta app solo presenta información educativa.</p>
+          </article>
+        </div>
+      </main>
+    }
+
+    @if (activeView === 'historial') {
+      <main class="page-content">
+        <div class="section-heading"><h1>Registro e historial</h1><button type="button" class="secondary-button" (click)="loadHistory()" [disabled]="isLoadingHistory">{{ isLoadingHistory ? 'Actualizando…' : '↻ Actualizar' }}</button></div>
+        <p class="page-intro">Prácticas y eventos guardados en la base de datos de tu cuenta.</p>
+        @if (isLoadingHistory) {
+          <div class="empty-state">Consultando prácticas…</div>
+        } @else if (!history.length) {
+          <div class="empty-state">Todavía no hay prácticas guardadas. Inicia una desde el simulador.</div>
+        } @else {
+          <div class="history-table-wrap">
+            <table class="history-table">
+              <thead><tr><th>ID</th><th>Fecha</th><th>Escenario</th><th>Modo</th><th>RATE</th><th>OUTPUT</th><th>Resultado</th><th>Eventos</th><th>Evidencia</th><th></th></tr></thead>
+              <tbody>
+                @for (item of history; track item.id_simulacion) {
+                  <tr>
+                    <td>#{{ item.id_sesion }}</td><td>{{ item.fecha_creacion | date:'dd/MM/yy HH:mm' }}</td><td>{{ item.nombre_escenario }}</td><td>{{ item.modo }}</td><td>{{ item.frecuencia_ppm }} ppm</td><td>{{ item.corriente_ma | number:'1.1-1' }} mA</td><td>{{ item.resultado }}</td><td>{{ item.eventos.length }}</td><td>@if (item.evidencia_nombre) { <button type="button" class="table-action" (click)="downloadEvidence(item)">Descargar</button> } @else { — }</td>
+                    <td><button type="button" class="table-action" (click)="explainHistory(item)">Consultar a Noah</button></td>
+                  </tr>
+                  <tr class="event-detail-row"><td colspan="10"><details><summary>Ver eventos de la práctica #{{ item.id_sesion }}</summary><div class="history-events">@for (event of item.eventos; track event.id_evento) { <p><time>{{ event.timestamp | date:'HH:mm:ss' }}</time><strong>{{ event.tipo }}</strong>{{ event.descripcion }}</p> }@if (!item.eventos.length) { <p>Sin eventos registrados.</p> }</div></details></td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </main>
+    }
+
+    <footer class="app-footer">Universidad ECCI · GALIX PACESTAR · Prototipo de simulación académica, no clínico.</footer>
+  </div>
+}

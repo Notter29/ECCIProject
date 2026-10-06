@@ -1,0 +1,54 @@
+<section class="noah-panel" aria-labelledby="noah-title">
+  <header class="noah-header">
+    <div>
+      <h2 id="noah-title">Noah</h2>
+      <p>{{ sesionId ? 'Analizando sesión histórica' : 'Tutor de simulación' }}</p>
+    </div>
+    <span class="noah-status" aria-label="Disponible"></span>
+  </header>
+
+  <div class="noah-messages" aria-live="polite" aria-relevant="additions text">
+    @if (mensajes.length === 1) {
+      <div class="suggested-questions" aria-label="Preguntas frecuentes">
+        <span>Preguntas frecuentes</span>
+        <button type="button" (click)="preguntarSugerencia('¿Cómo inicio una simulación?')">¿Cómo inicio?</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué es el Medtronic Model 53401?')">¿Qué es el 53401?</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué significa VVI?')">¿Qué significa VVI?</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué diferencia hay entre VVI y VOO?')">VVI vs VOO</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué representan PACE y SENSE?')">PACE y SENSE</button>
+        <button type="button" (click)="preguntarSugerencia('¿Por qué no veo un pulso PACE?')">No veo un pulso</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué escenarios puedo practicar?')">Escenarios</button>
+        <button type="button" (click)="preguntarSugerencia('¿Cómo afecta la sensibilidad?')">Sensibilidad</button>
+        <button type="button" (click)="preguntarSugerencia('¿Qué revisa el módulo de mantenimiento?')">Mantenimiento</button>
+      </div>
+    }
+    @for (message of mensajes; track $index) {
+      <article class="noah-message" [class.from-student]="message.author === 'student'">
+        <span class="message-author">{{ message.author === 'student' ? 'Estudiante' : 'Noah' }}</span>
+        <p>{{ message.text }}</p>
+        @if (message.author === 'Noah' && message.mode) {
+          <small>{{ message.mode === 'llm' ? 'Respuesta asistida por IA' : 'Guía educativa local' }}</small>
+        }
+        @if (message.source) {
+          <small>Fuente: {{ message.source }}</small>
+        }
+      </article>
+    }
+    @if (enviando) {
+      <p class="noah-thinking" role="status">Noah está preparando una explicación…</p>
+    }
+  </div>
+
+  <form class="noah-composer" (ngSubmit)="enviar()">
+    <label for="noah-question">Tu pregunta</label>
+    <div class="composer-row">
+      <textarea id="noah-question" name="question" [(ngModel)]="pregunta" rows="2"
+        maxlength="1500" placeholder="Pregunta sobre el uso o el resultado…"
+        [disabled]="enviando" required></textarea>
+      <button type="submit" aria-label="Enviar pregunta" [disabled]="enviando || !pregunta.trim()">
+        Enviar
+      </button>
+    </div>
+    <p class="noah-disclaimer">No ingreses datos personales ni información de pacientes. Uso académico; no brinda consejo clínico.</p>
+  </form>
+</section>

@@ -1,0 +1,188 @@
+<!-- Historial de Sesiones del Estudiante -->
+<div class="historial-wrapper">
+
+  <!-- Encabezado -->
+  <div class="historial-header">
+    <span class="historial-title">📋 HISTORIAL DE PRÁCTICAS</span>
+    <button class="btn-recargar" (click)="cargarHistorial()" [disabled]="cargando || !idUsuario">
+      {{ cargando ? '⏳ Cargando...' : '🔄 Actualizar' }}
+    </button>
+  </div>
+
+  <!-- Sin usuario conectado -->
+  @if (!idUsuario) {
+    <div class="estado-vacio">
+      <span class="vacio-icono">🔒</span>
+      <p>Inicia sesión para ver tu historial de prácticas.</p>
+    </div>
+  }
+
+  <!-- Cargando -->
+  @if (cargando) {
+    <div class="estado-cargando">
+      <div class="spinner"></div>
+      <span>Consultando base de datos...</span>
+    </div>
+  }
+
+  <!-- Error de conexión -->
+  @if (error) {
+    <div class="estado-error">
+      <span>{{ error }}</span>
+    </div>
+  }
+
+  <!-- Contenido del historial -->
+  @if (historial && !cargando) {
+
+    <!-- Estadísticas globales -->
+    <div class="estadisticas">
+      <div class="stat-card">
+        <span class="stat-valor">{{ historial.total_sesiones }}</span>
+        <span class="stat-label">Sesiones</span>
+      </div>
+      <div class="stat-card stat-exitoso">
+        <span class="stat-valor">{{ historial.total_capturas_exitosas }}</span>
+        <span class="stat-label">Capturas ✅</span>
+      </div>
+      <div class="stat-card stat-fallo">
+        <span class="stat-valor">{{ historial.total_fallos }}</span>
+        <span class="stat-label">Fallos ❌</span>
+      </div>
+      <div class="stat-card stat-pct">
+        <span class="stat-valor">{{ porcentajeExito }}%</span>
+        <span class="stat-label">Éxito</span>
+      </div>
+    </div>
+
+    <!-- Barra de progreso de éxito -->
+    <div class="barra-exito-wrapper">
+      <span class="barra-label">Tasa de captura exitosa</span>
+      <div class="barra-fondo">
+        <div
+          class="barra-relleno"
+          [style.width.%]="porcentajeExito"
+          [class.barra-excelente]="porcentajeExito >= 90"
+          [class.barra-buena]="porcentajeExito >= 70 && porcentajeExito < 90"
+          [class.barra-regular]="porcentajeExito >= 50 && porcentajeExito < 70"
+          [class.barra-baja]="porcentajeExito < 50">
+        </div>
+      </div>
+      <span class="barra-pct">{{ porcentajeExito }}%</span>
+    </div>
+
+    <!-- Tip educativo (RF-14) -->
+    <div class="tip-educativo">
+      <span>{{ tipEducativo }}</span>
+    </div>
+
+    <!-- Tabla de sesiones -->
+    @if (historial.sesiones.length > 0) {
+      <div class="tabla-wrapper">
+        <table class="tabla-sesiones">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Escenario</th>
+              <th>Inicio</th>
+              <th>Estado</th>
+              <th>Puntaje</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (sesion of historial.sesiones; track trackBySesion($index, sesion)) {
+              <tr [class.fila-activa]="!estaFinalizada(sesion)" [class.fila-seleccionada]="sesionSeleccionada?.id_sesion === sesion.id_sesion">
+                <td class="col-id">{{ sesion.id_sesion }}</td>
+                <td class="col-escenario">
+                  {{ iconoEscenario(sesion.escenario_base) }} {{ sesion.escenario_base }}
+                </td>
+                <td class="col-fecha">{{ sesion.fecha_inicio | date:'dd/MM/yy HH:mm' }}</td>
+                <td class="col-estado">
+                  @if (estaFinalizada(sesion)) {
+                    <span class="badge badge-finalizada">Finalizada</span>
+                  } @else {
+                    <span class="badge badge-activa">En curso</span>
+                  }
+                </td>
+                <td class="col-puntaje">
+                  @if (sesion.puntaje_final !== null) {
+                    <span class="puntaje-badge" [class]="colorPuntaje(sesion.puntaje_final)">
+                      {{ sesion.puntaje_final }}/100
+                    </span>
+                  } @else {
+                    <span class="puntaje-badge puntaje-sin-datos">—</span>
+                  }
+                </td>
+                <td class="col-detalle">
+                  <button type="button" class="btn-seleccionar-sesion"
+                    [attr.aria-pressed]="sesionSeleccionada?.id_sesion === sesion.id_sesion"
+                    (click)="seleccionarSesion(sesion)">
+                    {{ sesionSeleccionada?.id_sesion === sesion.id_sesion ? 'Seleccionada' : 'Ver eventos' }}
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      @if (sesionSeleccionada) {
+        <section class="detalle-sesion" aria-labelledby="detalle-sesion-title">
+          <div class="detalle-sesion-header">
+            <div>
+              <h3 id="detalle-sesion-title">Sesión #{{ sesionSeleccionada.id_sesion }}</h3>
+              <p>{{ sesionSeleccionada.escenario_base }} · {{ registrosSesion.length }} eventos guardados</p>
+            </div>
+            <button type="button" class="btn-explicar-noah" [disabled]="cargandoTelemetria || !!errorTelemetria"
+              (click)="solicitarExplicacion()">
+              Explicar con Noah
+            </button>
+          </div>
+
+          @if (cargandoTelemetria) {
+            <div class="estado-cargando" role="status">Cargando eventos de la sesión…</div>
+          } @else if (errorTelemetria) {
+            <div class="estado-error" role="alert">{{ errorTelemetria }}</div>
+          } @else {
+            <div class="detalle-metricas">
+              <span><strong>{{ registrosSesion.length }}</strong> eventos</span>
+              <span><strong>{{ capturasSesion }}</strong> capturas</span>
+              <span><strong>{{ fallosSesion }}</strong> fallos</span>
+              <span><strong>{{ porcentajeCapturasSesion }}%</strong> capturas exitosas</span>
+            </div>
+
+            @if (registrosSesion.length > 0) {
+              <div class="tabla-wrapper">
+                <table class="tabla-sesiones tabla-eventos">
+                  <thead>
+                    <tr><th>Hora</th><th>PPM</th><th>Corriente</th><th>Sensibilidad</th><th>Evento</th></tr>
+                  </thead>
+                  <tbody>
+                    @for (registro of registrosSesion; track registro.id_registro) {
+                      <tr>
+                        <td>{{ registro.timestamp | date:'HH:mm:ss' }}</td>
+                        <td>{{ registro.frecuencia_ppm }}</td>
+                        <td>{{ registro.corriente_ma }} mA</td>
+                        <td>{{ registro.sensibilidad_mv }} mV</td>
+                        <td>{{ registro.evento }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            } @else {
+              <p class="detalle-sin-eventos">Esta sesión no tiene cambios de parámetros registrados para analizar.</p>
+            }
+          }
+        </section>
+      }
+    } @else {
+      <div class="estado-vacio">
+        <span class="vacio-icono">📭</span>
+        <p>No hay sesiones registradas todavía. ¡Inicia tu primera práctica!</p>
+      </div>
+    }
+  }
+
+</div>

@@ -1,0 +1,140 @@
+<!-- Panel de Control del Marcapasos GALIX -->
+<div class="panel-wrapper">
+
+  <!-- Encabezado del panel -->
+  <div class="panel-header">
+    <span class="panel-title">⚙️ PANEL DE CONTROL</span>
+    <span class="panel-modelo">GALIX M·P·X</span>
+  </div>
+
+  <!-- ── SELECCIÓN DE ESCENARIO CLÍNICO (RF-02) ─────────────────── -->
+  <div class="control-group">
+    <label class="control-label">🏥 Escenario Clínico</label>
+    <select
+      class="select-escenario"
+      [(ngModel)]="escenarioSelec"
+      (ngModelChange)="alCambiarParametro()"
+      [disabled]="simulando">
+      @for (esc of escenarios; track esc) {
+        <option [value]="esc">{{ esc }}</option>
+      }
+    </select>
+    @if (simulando) {
+      <small class="hint">Detenga la simulación para cambiar escenario</small>
+    }
+  </div>
+
+  <!-- ── SLIDER PPM (RF-03) ─────────────────────────────────────── -->
+  <div class="control-group">
+    <div class="slider-header">
+      <label class="control-label">
+        {{ sliderConfig.ppm.icono }} {{ sliderConfig.ppm.label }}
+      </label>
+      <span class="slider-value">
+        <strong>{{ ppm }}</strong> {{ sliderConfig.ppm.unit }}
+      </span>
+    </div>
+    <input
+      type="range"
+      class="slider slider-ppm"
+      [min]="sliderConfig.ppm.min"
+      [max]="sliderConfig.ppm.max"
+      [step]="sliderConfig.ppm.step"
+      [(ngModel)]="ppm"
+      (ngModelChange)="alCambiarParametro()"
+      [style.--pct]="calcularPorcentaje(ppm, sliderConfig.ppm.min, sliderConfig.ppm.max) + '%'"
+    />
+    <div class="slider-labels">
+      <span>{{ sliderConfig.ppm.min }}</span>
+      <span>Normal: 60-80</span>
+      <span>{{ sliderConfig.ppm.max }}</span>
+    </div>
+  </div>
+
+  <!-- ── SLIDER CORRIENTE mA (RF-04) ───────────────────────────── -->
+  <div class="control-group" [class.umbral-fallo]="hayFalloCaptura">
+    <div class="slider-header">
+      <label class="control-label">
+        {{ sliderConfig.ma.icono }} {{ sliderConfig.ma.label }}
+      </label>
+      <span class="slider-value" [class.valor-fallo]="hayFalloCaptura">
+        <strong>{{ corrienteMa | number:'1.1-1' }}</strong> {{ sliderConfig.ma.unit }}
+      </span>
+    </div>
+    <input
+      type="range"
+      class="slider"
+      [class.slider-fallo]="hayFalloCaptura"
+      [min]="sliderConfig.ma.min"
+      [max]="sliderConfig.ma.max"
+      [step]="sliderConfig.ma.step"
+      [(ngModel)]="corrienteMa"
+      (ngModelChange)="alCambiarParametro()"
+      [style.--pct]="calcularPorcentaje(corrienteMa, sliderConfig.ma.min, sliderConfig.ma.max) + '%'"
+    />
+    <div class="slider-labels">
+      <span>{{ sliderConfig.ma.min }}</span>
+      <span class="umbral-marker">Umbral: 5.0 mA</span>
+      <span>{{ sliderConfig.ma.max }}</span>
+    </div>
+    <!-- Advertencia de fallo de captura (RF-10, RF-11) -->
+    @if (hayFalloCaptura && simulando) {
+      <div class="alerta-fallo">
+        ⚠️ Corriente insuficiente — Fallo de Captura esperado
+      </div>
+    }
+  </div>
+
+  <!-- ── SLIDER SENSIBILIDAD mV (RF-05) ────────────────────────── -->
+  <div class="control-group">
+    <div class="slider-header">
+      <label class="control-label">
+        {{ sliderConfig.mv.icono }} {{ sliderConfig.mv.label }}
+      </label>
+      <span class="slider-value">
+        <strong>{{ sensibilidadMv | number:'1.1-1' }}</strong> {{ sliderConfig.mv.unit }}
+      </span>
+    </div>
+    <input
+      type="range"
+      class="slider slider-mv"
+      [min]="sliderConfig.mv.min"
+      [max]="sliderConfig.mv.max"
+      [step]="sliderConfig.mv.step"
+      [(ngModel)]="sensibilidadMv"
+      (ngModelChange)="alCambiarParametro()"
+      [style.--pct]="calcularPorcentaje(sensibilidadMv, sliderConfig.mv.min, sliderConfig.mv.max) + '%'"
+    />
+    <div class="slider-labels">
+      <span>{{ sliderConfig.mv.min }}</span>
+      <span>Estándar: 2 mV</span>
+      <span>{{ sliderConfig.mv.max }}</span>
+    </div>
+  </div>
+
+  <!-- ── BOTONES DE CONTROL (RF-06) ────────────────────────────── -->
+  <div class="control-buttons">
+    <button
+      class="btn-principal"
+      [class.btn-activo]="simulando"
+      (click)="onToggle()">
+      {{ textoBoton }}
+    </button>
+    <button
+      class="btn-secundario"
+      (click)="onDetener()"
+      [disabled]="!simulando">
+      ⏹ DETENER
+    </button>
+  </div>
+
+  <!-- ── RESUMEN DE PARÁMETROS ACTUALES ────────────────────────── -->
+  <div class="params-summary">
+    <div class="param-chip">PPM: {{ ppm }}</div>
+    <div class="param-chip" [class.chip-fallo]="hayFalloCaptura">
+      mA: {{ corrienteMa | number:'1.1-1' }}
+    </div>
+    <div class="param-chip">mV: {{ sensibilidadMv | number:'1.1-1' }}</div>
+  </div>
+
+</div>

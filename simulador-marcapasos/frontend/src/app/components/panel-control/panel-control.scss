@@ -1,0 +1,313 @@
+// ─────────────────────────────────────────────────────────────────────
+// Estilos del Panel de Control — Apariencia de equipo médico GALIX
+// ─────────────────────────────────────────────────────────────────────
+
+.panel-wrapper {
+  display:          flex;
+  flex-direction:   column;
+  gap:              18px;
+  background:       #111a12;
+  border:           2px solid #1a4a1e;
+  border-radius:    12px;
+  padding:          20px;
+  box-shadow:       0 0 20px rgba(0, 255, 65, 0.08);
+  min-width:        280px;
+  max-width:        340px;
+}
+
+// ── ENCABEZADO ────────────────────────────────────────────────────────
+
+.panel-header {
+  display:          flex;
+  justify-content:  space-between;
+  align-items:      center;
+  border-bottom:    1px solid #1a4a1e;
+  padding-bottom:   12px;
+}
+
+.panel-title {
+  font-family:    'Courier New', monospace;
+  font-size:      0.9rem;
+  font-weight:    700;
+  color:          #00ff41;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.panel-modelo {
+  font-family:    'Courier New', monospace;
+  font-size:      0.7rem;
+  color:          #5a8a5f;
+  letter-spacing: 2px;
+}
+
+// ── GRUPOS DE CONTROL ─────────────────────────────────────────────────
+
+.control-group {
+  display:          flex;
+  flex-direction:   column;
+  gap:              8px;
+  padding:          12px;
+  background:       #0d150e;
+  border:           1px solid #1a3a1e;
+  border-radius:    8px;
+  transition:       border-color 0.3s;
+
+  &.umbral-fallo {
+    border-color: #ff6b35;
+    background:   #1a0f0a;
+  }
+}
+
+.control-label {
+  font-family:    'Courier New', monospace;
+  font-size:      0.75rem;
+  color:          #7ab07f;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.select-escenario {
+  background:     #0a1a0c;
+  border:         1px solid #2a6a2e;
+  border-radius:  6px;
+  color:          #00ff41;
+  padding:        8px 10px;
+  font-family:    'Courier New', monospace;
+  font-size:      0.8rem;
+  cursor:         pointer;
+  width:          100%;
+  appearance:     none;
+
+  &:disabled {
+    color:   #3a5a3f;
+    cursor:  not-allowed;
+    opacity: 0.6;
+  }
+
+  option {
+    background: #0a1a0c;
+    color:      #00ff41;
+  }
+}
+
+.hint {
+  font-size: 0.68rem;
+  color:     #5a8a5f;
+  font-style: italic;
+}
+
+// ── SLIDERS ───────────────────────────────────────────────────────────
+
+.slider-header {
+  display:          flex;
+  justify-content:  space-between;
+  align-items:      center;
+}
+
+.slider-value {
+  font-family: 'Courier New', monospace;
+  font-size:   0.85rem;
+  color:       #00ff41;
+
+  strong { font-size: 1.1rem; }
+
+  &.valor-fallo {
+    color:     #ff6b35;
+    animation: parpadeo 0.8s ease-in-out infinite;
+  }
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance:         none;
+  width:              100%;
+  height:             6px;
+  border-radius:      3px;
+  background:         linear-gradient(
+    to right,
+    #00ff41 0%,
+    #00ff41 var(--pct, 50%),
+    #2a3a2e var(--pct, 50%),
+    #2a3a2e 100%
+  );
+  outline:            none;
+  cursor:             pointer;
+
+  &.slider-fallo {
+    background: linear-gradient(
+      to right,
+      #ff6b35 0%,
+      #ff6b35 var(--pct, 50%),
+      #3a2a2e var(--pct, 50%),
+      #3a2a2e 100%
+    );
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance:         none;
+    width:              18px;
+    height:             18px;
+    border-radius:      50%;
+    background:         #00ff41;
+    border:             2px solid #0d150e;
+    box-shadow:         0 0 8px rgba(0, 255, 65, 0.5);
+    cursor:             pointer;
+    transition:         background 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      background:  #33ff6b;
+      box-shadow:  0 0 14px rgba(0, 255, 65, 0.8);
+    }
+  }
+}
+
+.slider-fallo::-webkit-slider-thumb {
+  background:  #ff6b35 !important;
+  box-shadow:  0 0 8px rgba(255, 107, 53, 0.5) !important;
+}
+
+.slider-labels {
+  display:         flex;
+  justify-content: space-between;
+  font-family:     'Courier New', monospace;
+  font-size:       0.62rem;
+  color:           #3a5a3f;
+
+  .umbral-marker {
+    color:      #ff9a35;
+    font-weight: 700;
+  }
+}
+
+// ── ALERTAS ───────────────────────────────────────────────────────────
+
+.alerta-fallo {
+  background:     rgba(255, 107, 53, 0.12);
+  border:         1px solid #ff6b35;
+  border-radius:  4px;
+  padding:        6px 10px;
+  font-family:    'Courier New', monospace;
+  font-size:      0.72rem;
+  color:          #ff6b35;
+  font-weight:    700;
+  animation:      parpadeo 0.8s ease-in-out infinite;
+}
+
+// ── BOTONES DE CONTROL ────────────────────────────────────────────────
+
+.control-buttons {
+  display: flex;
+  gap:     10px;
+}
+
+.btn-principal {
+  flex:           1;
+  padding:        12px 8px;
+  background:     #00a832;
+  border:         2px solid #00ff41;
+  border-radius:  8px;
+  color:          #000;
+  font-family:    'Courier New', monospace;
+  font-size:      0.8rem;
+  font-weight:    700;
+  letter-spacing: 1px;
+  cursor:         pointer;
+  transition:     all 0.2s;
+  text-transform: uppercase;
+
+  &:hover     { background: #00d43d; box-shadow: 0 0 14px rgba(0, 255, 65, 0.4); }
+  &.btn-activo {
+    background: #1a4a2a;
+    color:      #00ff41;
+    border-color: #00ff41;
+  }
+}
+
+.btn-secundario {
+  padding:        12px 10px;
+  background:     #1a0a0a;
+  border:         2px solid #5a2a2a;
+  border-radius:  8px;
+  color:          #ff6b35;
+  font-family:    'Courier New', monospace;
+  font-size:      0.75rem;
+  font-weight:    700;
+  cursor:         pointer;
+  transition:     all 0.2s;
+  text-transform: uppercase;
+  white-space:    nowrap;
+
+  &:hover:not(:disabled) {
+    border-color: #ff6b35;
+    box-shadow:   0 0 10px rgba(255, 107, 53, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor:  not-allowed;
+  }
+}
+
+// ── CHIPS DE RESUMEN ──────────────────────────────────────────────────
+
+.params-summary {
+  display:   flex;
+  gap:       8px;
+  flex-wrap: wrap;
+}
+
+.param-chip {
+  background:     #0d1a0f;
+  border:         1px solid #1a4a1e;
+  border-radius:  20px;
+  padding:        4px 12px;
+  font-family:    'Courier New', monospace;
+  font-size:      0.72rem;
+  color:          #00ff41;
+  font-weight:    700;
+
+  &.chip-fallo {
+    border-color: #ff6b35;
+    color:        #ff6b35;
+  }
+}
+
+// ── ANIMACIONES ───────────────────────────────────────────────────────
+
+@keyframes parpadeo {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.panel-wrapper { gap: 16px; min-width: 300px; max-width: 350px; height: 100%; border: 1px solid var(--line); border-top: 4px solid var(--ecci-yellow); border-radius: 5px; padding: 18px; background: #fff; box-shadow: 0 8px 24px rgba(18, 52, 90, .08); }
+.panel-header { border-color: var(--line); }
+.panel-title { color: var(--ecci-navy); font-family: 'Barlow', sans-serif; letter-spacing: 0; }
+.panel-modelo { color: var(--muted); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0; }
+.control-group { padding: 12px 0; border: 0; border-bottom: 1px solid #e8edf2; border-radius: 0; background: transparent; }
+.control-group.umbral-fallo { border-color: #f2d1cc; background: transparent; }
+.control-label { color: var(--ink); font-family: 'Barlow', sans-serif; letter-spacing: 0; }
+.select-escenario { border-color: #bdc9d5; border-radius: 4px; background: #fff; color: var(--ecci-navy); font-family: 'Barlow', sans-serif; }
+.select-escenario option { background: #fff; color: var(--ink); }
+.hint, .slider-labels { color: var(--muted); font-family: 'Barlow', sans-serif; }
+.slider-value { color: var(--ecci-blue); font-family: 'IBM Plex Mono', monospace; }
+.slider { background: linear-gradient(to right, var(--ecci-blue) 0%, var(--ecci-blue) var(--pct, 50%), #d5dee7 var(--pct, 50%), #d5dee7 100%); }
+.slider::-webkit-slider-thumb { background: var(--ecci-yellow); border-color: #fff; box-shadow: 0 0 0 2px var(--ecci-navy); }
+.slider::-webkit-slider-thumb:hover { background: #ffd24d; box-shadow: 0 0 0 3px var(--ecci-blue); }
+.slider-fallo { background: linear-gradient(to right, var(--danger) 0%, var(--danger) var(--pct, 50%), #ead9d9 var(--pct, 50%), #ead9d9 100%); }
+.slider-fallo::-webkit-slider-thumb { background: var(--danger) !important; box-shadow: 0 0 0 2px #fff !important; }
+.slider-labels .umbral-marker { color: #9b6810; }
+.alerta-fallo { background: #fff1ee; border-color: #e7b7b0; color: var(--danger); font-family: 'Barlow', sans-serif; animation: none; }
+.btn-principal { border: 0; border-radius: 4px; background: var(--ecci-navy); color: #fff; font-family: 'Barlow', sans-serif; letter-spacing: 0; }
+.btn-principal:hover { background: var(--ecci-blue); box-shadow: none; }
+.btn-principal.btn-activo { background: var(--success); color: #fff; border: 0; }
+.btn-secundario { border: 1px solid #e2b8b5; border-radius: 4px; background: #fff; color: var(--danger); font-family: 'Barlow', sans-serif; }
+.btn-secundario:hover:not(:disabled) { border-color: var(--danger); box-shadow: none; }
+.params-summary { border-top: 1px solid var(--line); padding-top: 12px; }
+.param-chip { border-color: #dce4ec; border-radius: 3px; background: #f3f6f9; color: var(--ecci-navy); font-family: 'IBM Plex Mono', monospace; }
+.param-chip.chip-fallo { border-color: #e7b7b0; color: var(--danger); }
+
+@media (max-width: 900px) {
+  .panel-wrapper { max-width: none; }
+}

@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+  color-scheme: light;
+  --ecci-navy: #154172;
+  --ecci-blue: #1b5683;
+  --ecci-yellow: #fbc436;
+  --ink: #192b3d;
+  --muted: #65768a;
+  --line: #d8e0e8;
+  --paper: #f4f7fa;
+  --white: #ffffff;
+  --ecg-bg: #102725;
+  --ecg-trace: #6de0c7;
+  --danger: #b83f4b;
+  --success: #237b64;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height:           100%;
+  margin:           0;
+  padding:          0;
+  background-color: var(--paper);
+  color:            var(--ink);
+  font-family:      'Barlow', sans-serif;
+  font-size:        14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width:  8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track { background: #e9eef3; }
+::-webkit-scrollbar-thumb {
+  background:    #9aabbb;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ecci-blue); }
+
+/* Selección de texto */
+::selection {
+  background: rgba(242, 183, 5, 0.35);
+  color:      var(--ecci-navy);
+}
+
+/* Reset de botones */
+button {
+  font-family: inherit;
+  cursor:      pointer;
+}
+
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(23, 108, 165, 0.35);
+  outline-offset: 2px;
+}
+
+/* Reset de inputs */
+input, select {
+  font-family: inherit;
+}
