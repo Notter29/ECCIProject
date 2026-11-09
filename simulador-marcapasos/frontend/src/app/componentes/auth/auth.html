@@ -1,0 +1,64 @@
+<main class="auth-container">
+  <section class="auth-card" aria-labelledby="auth-title">
+    <div class="auth-logo">
+      <span class="auth-icono" aria-hidden="true">ECG</span>
+      <h1 id="auth-title" class="auth-titulo">GALIX PACESTAR</h1>
+      <p class="auth-subtitulo">Laboratorio de estimulación cardíaca · ECCI</p>
+    </div>
+
+    <div class="auth-tabs" role="tablist" aria-label="Acceso a la plataforma">
+      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="modo === 'login'"
+        [class.tab-activo]="modo === 'login'" (click)="modo = 'login'; mensaje = ''">
+        Iniciar sesión
+      </button>
+      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="modo === 'registro'"
+        [class.tab-activo]="modo === 'registro'" (click)="modo = 'registro'; mensaje = ''">
+        Crear cuenta
+      </button>
+    </div>
+
+    @if (modo === 'login') {
+      <form class="auth-form" (ngSubmit)="iniciarSesion()">
+        <div class="form-group">
+          <label for="login-code">Código estudiantil</label>
+          <input id="login-code" type="text" [(ngModel)]="loginForm.codigo_estudiantil"
+            name="codigo" autocomplete="username" maxlength="20" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Contraseña</label>
+          <input id="login-password" type="password" [(ngModel)]="loginForm.password"
+            name="password" autocomplete="current-password" maxlength="128" required />
+        </div>
+        <button type="submit" class="btn-auth" [disabled]="cargando">
+          {{ cargando ? 'Verificando…' : 'Iniciar sesión' }}
+        </button>
+      </form>
+    } @else {
+      <form class="auth-form" (ngSubmit)="registrar()" #registerForm="ngForm">
+        <div class="form-group">
+          <label for="register-name">Nombre completo</label>
+          <input id="register-name" type="text" [(ngModel)]="registroForm.nombre"
+            name="nombre" autocomplete="name" minlength="3" maxlength="100" required />
+        </div>
+        <div class="form-group">
+          <label for="register-code">Código estudiantil</label>
+          <input id="register-code" type="text" [(ngModel)]="registroForm.codigo_estudiantil"
+            name="codigo" autocomplete="username" minlength="3" maxlength="20" required />
+        </div>
+        <div class="form-group">
+          <label for="register-password">Contraseña</label>
+          <input id="register-password" type="password" [(ngModel)]="registroForm.password"
+            name="password" autocomplete="new-password" minlength="12" maxlength="128" required />
+          <small class="field-hint">Mínimo 12 caracteres.</small>
+        </div>
+        <button type="submit" class="btn-auth" [disabled]="cargando || registerForm.invalid">
+          {{ cargando ? 'Creando cuenta…' : 'Crear cuenta' }}
+        </button>
+      </form>
+    }
+
+    @if (mensaje) {
+      <p class="auth-mensaje" [class.auth-exito]="exito" aria-live="polite">{{ mensaje }}</p>
+    }
+  </section>
+</main>
