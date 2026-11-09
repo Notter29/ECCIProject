@@ -1,0 +1,56 @@
+<main class="page-content">
+  <div class="section-heading">
+    <h1>Conoce el equipo</h1>
+    <span>MODELO DE REFERENCIA</span>
+  </div>
+  <p class="page-intro">La referencia documental del proyecto es Medtronic Model 53401. La aplicación limita su simulación didáctica a una sola cámara ventricular en VVI y VOO.</p>
+
+  <section class="equipment-grid">
+    <article class="content-card">
+      <span class="doc-category">IDENTIFICACIÓN</span>
+      <h2>Medtronic Model 53401</h2>
+      <dl class="equipment-details">
+        <div><dt>Fabricante</dt><dd>Medtronic</dd></div>
+        <div><dt>Tipo</dt><dd>Marcapasos externo temporal monocameral</dd></div>
+        <div><dt>Alcance de software</dt><dd>Simulación ventricular en modos VVI / VOO</dd></div>
+        <div><dt>Estimulación documentada</dt><dd>Corriente constante</dd></div>
+        <div><dt>Alimentación de referencia</dt><dd>Dos baterías AA alcalinas de 1,5 V</dd></div>
+      </dl>
+      <p class="muted-copy">El equipo físico documenta otros modos, pero el programa no implementa AAI, AOO, estimulación auricular ni RAP.</p>
+    </article>
+
+    <article class="content-card">
+      <span class="doc-category">FLUJO DE SIMULACIÓN</span>
+      <h2>Actividad → detección → decisión</h2>
+      <div class="process-flow">
+        <span>Actividad sintética</span>
+        <b>→</b>
+        <span>Detección VVI</span>
+        <b>→</b>
+        <span>PACE virtual</span>
+        <b>→</b>
+        <span>Respuesta ECG dibujada</span>
+      </div>
+      <p>En VVI, una actividad detectada inhibe el pulso programado; en VOO, el simulador genera pulsos periódicos sin inhibición por detección. Esta simplificación no reproduce todos los algoritmos del equipo real.</p>
+    </article>
+
+    <article class="content-card">
+      <span class="doc-category">CARACTERÍSTICAS DE REFERENCIA</span>
+      <h2>Datos físicos documentados</h2>
+      <dl class="equipment-details">
+        <div><dt>Peso</dt><dd>499 g</dd></div>
+        <div><dt>Dimensiones</dt><dd>20,27 × 6,68 × 4,14 cm</dd></div>
+        <div><dt>Vida útil de servicio indicada</dt><dd>7 años</dd></div>
+      </dl>
+      <p class="notice-small">Los datos describen el equipo de referencia según la especificación del proyecto, no el estado de ningún dispositivo conectado.</p>
+    </article>
+
+    <article class="content-card">
+      <span class="doc-category">COMPONENTES Y SEGURIDAD</span>
+      <h2>Contenido educativo</h2>
+      <p>Generador externo, controles, pantalla, compartimiento de baterías, conexiones, cable de paciente y sistema de estimulación son elementos que la investigación del equipo debe identificar.</p>
+      <p>No se genera ninguna alarma oficial ni se realizan pruebas eléctricas. Las instrucciones de operación, advertencias y riesgos deben consultarse en la guía de referencia oficial del fabricante.</p>
+      <a href="https://www.medtronic.com/" target="_blank" rel="noopener noreferrer">Consultar sitio oficial de Medtronic ↗</a>
+    </article>
+  </section>
+</main>
