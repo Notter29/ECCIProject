@@ -183,3 +183,41 @@ Prioridad sugerida: P0 = seguridad y flujo esencial; P1 = aprendizaje e historia
 ## Entrega actual frente al backlog
 
 Esta intervención refuerza autenticación, propiedad de recursos, verificación de captura en servidor, almacenamiento del token en memoria y la presentación visual ECCI. Las 20 historias describen el alcance total propuesto: funcionalidades como exportación, rol docente, comparador de escenarios, limitación de intentos, migraciones de BD y CI siguen pendientes y no se deben considerar implementadas por estar documentadas aquí.
+
+## Actualización frontend documentada
+
+La rama `develop` incorpora componentes standalone para autenticación y consulta del equipo:
+
+- `frontend/src/app/componentes/auth/` contiene la interfaz y pruebas base de inicio de sesión y registro.
+- `frontend/src/app/componentes/equipo/` contiene la información técnica y académica del Medtronic Model 53401.
+- El flujo actual conserva el shell principal en `app.ts` y `app.html`, con navegación por vistas y servicios HTTP compartidos.
+- La interfaz activa autentica mediante el componente de panel existente y mantiene el token en memoria.
+- Las vistas de equipo, simulador, Noah, biblioteca, mantenimiento e historial deben continuar usando el mismo sistema visual ECCI y el mismo aviso académico.
+
+## Criterios de arquitectura para el POC
+
+### Criterios técnicos
+
+- Angular debe ser el responsable exclusivo de presentación, navegación, formularios y visualización local Canvas.
+- FastAPI debe validar entradas, autenticar, autorizar propiedad y calcular resultados didácticos.
+- SQLAlchemy debe aislar persistencia y conservar contratos Pydantic existentes.
+- La lógica de captura no puede depender de valores booleanos enviados por el navegador.
+
+### Criterios de interfaz
+
+- Toda acción principal tiene una etiqueta visible y un nombre accesible.
+- PACE, SENSE y captura deben mostrar estado y descripción textual además de indicadores gráficos.
+- Los rangos y unidades deben presentarse de forma consistente en los controles y en la documentación.
+- Las vistas deben adaptarse sin desbordamiento horizontal esencial y mantener foco visible.
+- Los mensajes clínicos o diagnósticos están prohibidos; el contenido debe describirse como simulación académica.
+
+### Criterios de seguridad y privacidad
+
+- Registro, login y cierre de sesión deben validar datos y no exponer hashes ni tokens.
+- Perfil, sesiones, telemetría e historial requieren JWT y pertenencia al usuario autenticado.
+- Evidencias aceptan JPEG, PNG y WebP con límite de 5 MB y no deben contener datos reales de pacientes.
+- Noah no recibe identificación, JWT ni datos personales y puede degradar a guía local si falla el proveedor externo.
+
+### Criterios de completitud
+
+El POC se acepta solo con flujo funcional desde el acceso hasta el guardado e historial, documentación técnica alineada, pruebas enfocadas y advertencia académica visible. Exportación, rol docente, administración de escenarios y capacidad probada de 800 usuarios siguen fuera del alcance implementado.

@@ -1,4 +1,4 @@
-# 🫀 GALIX PACESTAR — Simulador Didáctico de Marcapasos Temporal Externo
+# GALIX PACESTAR — Simulador Didáctico de Marcapasos Temporal Externo
 
 > **Proyecto Académico de Ingeniería Biomédica — Universidad ECCI**  
 > *Equipo de Referencia:* **Medtronic Model 53401** (Marcapasos Temporal Monocameral Externo)
@@ -7,13 +7,13 @@ Plataforma web educativa e interactiva diseñada para la enseñanza de la estimu
 
 ---
 
-## 📌 Descargo de Responsabilidad (Academic Disclaimer)
+## Descargo de Responsabilidad (Academic Disclaimer)
 
 > **AVISO IMPORTANTE:** Esta plataforma es una herramienta estrictamente educativa desarrollada con fines académicos para estudiantes de Ingeniería Biomédica. **NO es un dispositivo médico, NO genera estimulación eléctrica real, NO debe conectarse a pacientes y NO debe utilizarse para diagnóstico o tratamiento clínico.**
 
 ---
 
-## 🚀 ¿Cómo ejecutar el proyecto tras clonar de Git?
+## ¿Cómo ejecutar el proyecto tras clonar de Git?
 
 ### Requisitos Previos
 * **Python 3.10+** (Asegurarse de marcar la casilla "Add Python to PATH" durante la instalación).
@@ -77,14 +77,14 @@ Abre tu navegador en `http://localhost:4200`.
 
 ---
 
-## 💻 Características Principales del Proyecto
+## Características Principales del Proyecto
 
-### 1. 🫀 Monitor Biológico Dinámico a 60 FPS (*Canvas Oscilloscope*)
+### 1. Monitor Biológico Dinámico a 60 FPS (*Canvas Oscilloscope*)
 * **Trazado de barrido continuo (Wipe Beam Effect)**: Simula el comportamiento real de un monitor clínico de cuidados intensivos a 25 mm/s.
 * **Canal Doble**: Canal 1 para ECG Ventricular sintético y Canal 2 para Impulso de Estimulación (PACE).
 * **Indicadores LED y Auditivos**: Parpadeo en vivo de indicadores **PACE** (amarillo) y **SENSE** (azul), con tono de pulso de audio opcional (Web Audio API).
 
-### 2. 🎛️ Panel de Control de Estimulación
+### 2. Panel de Control de Estimulación
 * **Modos de Estimulación**: Modo síncrono a demanda (**VVI**) y asíncrono (**VOO**).
 * **Parámetros Ajustables**:
   * `RATE` (Frecuencia): 30–200 ppm (escalonamientos exactos del fabricante: 5/2/5/6 ppm).
@@ -93,31 +93,31 @@ Abre tu navegador en `http://localhost:4200`.
   * `PULSE WIDTH` (Duración de Pulso): 1,5 ms fijo de referencia.
 * **Escenarios Didácticos**: *Ritmo Sinusal*, *Bradicardia*, *Ausencia de Actividad Ventricular*, *Alteración de Detección*.
 
-### 3. 🤖 Tutor Educativo Inteligente (Noah)
+### 3. Tutor Educativo Inteligente (Noah)
 * Asistente virtual especializado en la guía de referencia del Medtronic 53401 y la especificación del proyecto.
 * Explica conceptos de **Períodos de Cegamiento (Blanking)** (200 ms tras PACE, 120 ms tras SENSE), resolución de problemas (*Loss of Capture*, *Oversensing*, *Undersensing*), normativa EMC (IEC 60601-1-2 / CISPR 11) y fisiología cardíaca (potencial de acción y sistema de conducción).
 * Analiza de forma segura sesiones registradas en el historial sin emitir juicios clínicos.
 
-### 4. 📋 Mantenimiento y Evaluación Funcional
+### 4. Mantenimiento y Evaluación Funcional
 * Lista de chequeo didáctica interactiva de 11 puntos (carcasa, conectores, cables, pantalla, baterías, etc.).
 * Guía de pruebas técnicas y protocolos de limpieza/desinfección oficiales (alcohol isopropílico al 70%).
 
-### 5. 📁 Registro e Historial de Prácticas
+### 5. Registro e Historial de Prácticas
 * Guardado persistente de simulaciones con resultado (*Correcto*, *Incorrecto*, *Requiere revisión*), observaciones y conclusión redactada por el estudiante.
 * Soporte para adjuntar evidencia fotográfica (JPEG/PNG/WebP hasta 5 MB) almacenada de forma segura en la base de datos.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 * **Frontend**: Angular 18 (Standalone Components, Signals, Canvas API a 60 FPS, SCSS).
-* **Backend**: FastAPI (Python 3.10+, Uvicorn, Pydantic v2, SQLAlchemy ORM).
+* **Backend**: FastAPI (Python 3.10+, Uvicorn 0.30.6, Pydantic v2 2.11.0, SQLAlchemy ORM 2.0.35).
 * **Base de Datos**: SQLite3 (`marcapasos.db`) con autenticación JWT y Argon2id / bcrypt.
 * **Arquitectura**: Monolito modular desacoplado.
 
 ---
 
-## 🏢 Créditos
+## Créditos
 
 * **Institución:** Universidad ECCI — Programa de Ingeniería Biomédica.
 * **Proyecto:** GALIX PACESTAR · Prototipo de Simulación Académica.

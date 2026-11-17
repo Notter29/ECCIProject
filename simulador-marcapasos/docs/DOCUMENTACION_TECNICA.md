@@ -271,3 +271,45 @@ Estado validado en desarrollo: build frontend, 2 tests Angular, 3 tests de hash/
 4. Mover persistencia a PostgreSQL, desplegar stateless, añadir Redis, rate-limit y estrategia de telemetría en lotes/cola.
 5. Instrumentar, ejecutar la prueba de 800 VUs y publicar informe; solo entonces anunciar la capacidad.
 6. Completar historias pendientes: roles docentes, comparación/exportación, administración de escenarios, retención/borrado, CI y recuperación.
+
+## 13. Criterios de la arquitectura de interfaz
+
+### 13.1 Drivers arquitectónicos
+
+- **Funcionalidad:** autenticar estudiantes, configurar prácticas y visualizar ECG, PACE y SENSE en los modos didácticos VVI y VOO.
+- **Seguridad:** conservar la autorización por propietario, validar rangos en backend y mantener el resultado de captura como responsabilidad del servidor.
+- **Usabilidad:** presentar controles con unidad visible, mensajes legibles y estados que no dependan solamente del color.
+- **Accesibilidad:** soportar navegación por teclado, foco visible, etiquetas asociadas y comportamiento adaptable en móvil.
+- **Rendimiento:** mantener la generación de la señal y la animación Canvas en el navegador para reducir carga del API.
+- **Conservación del modelo:** separar presentación, servicios HTTP, autenticación, reglas de simulación y persistencia.
+
+### 13.2 Stack tecnológico actual
+
+| Capa | Tecnología actual | Actualización documentada |
+|---|---|---|
+| Frontend | Angular standalone, TypeScript, RxJS, FormsModule, Signals y Canvas | Se incorporaron vistas de autenticación y equipo en `frontend/src/app/componentes/`; el acceso principal continúa conectado desde `App`. |
+| Comunicación | HTTP REST, JWT bearer e interceptor Angular | Los recursos privados usan token y comprobación de propietario en backend. |
+| Backend | Python 3.10+, FastAPI, Pydantic, SQLAlchemy y Uvicorn | Los routers separados siguen los dominios de usuarios, sesiones, telemetría y Noah. |
+| Seguridad | Argon2id, bcrypt heredado, JWT HS256 y validación Pydantic | Las contraseñas nuevas usan Argon2id y los hashes bcrypt heredados se migran al iniciar sesión. |
+| Persistencia | SQLite local; PostgreSQL configurable | No está validado el uso de SQLite para una población simultánea de 800 alumnos. |
+| Documentación | Markdown y diagramas Mermaid | El mismo estado documental debe mantenerse alineado con el repositorio y las capacidades reales. |
+
+### 13.3 Coherencia entre estilo y implementación
+
+- Los componentes standalone deben usar una API y convención de nombres consistentes con las vistas existentes.
+- Estados, colores y mensajes PACE/SENSE deben estar acompañados de texto y atributos accesibles.
+- Los textos académicos deben repetir el mismo límite: el sistema es educativo, los valores son sintéticos y no existen decisiones clínicas.
+- Los límites 30–200 ppm, 0,1–25 mA, 0,4–20 mV y 1,5 ms fijos deben coincidir en interfaz, validación y documentación.
+- El umbral didáctico de captura debe anunciarse como simplificación interna y no como especificación del fabricante.
+- Los enlaces técnicos deben dirigirse a fuentes oficiales o a documentación aprobada; Noah no debe navegar libremente.
+
+### 13.4 Criterios del POC funcional
+
+El POC se considera aprobado solo si cumple simultáneamente:
+
+1. **Seguridad:** registro/login, contraseña fuerte, JWT, autorización por propietario, entradas fuera de rango rechazadas y ausencia de secretos en Git/logs.
+2. **Usabilidad:** el estudiante puede iniciar sesión, configurar VVI/VOO, iniciar, pausar, detener, reiniciar y guardar una práctica sin estados ambiguos.
+3. **Accesibilidad:** controles operables por teclado, foco visible, etiquetas, mensajes con `aria-live` o alertas, contraste verificable y adaptación móvil.
+4. **Integridad funcional:** el escenario, PPM, mA y mV visibles coinciden con los datos enviados y registrados; PACE/SENSE y el cálculo de captura son coherentes con el modelo didáctico.
+5. **Completitud del flujo:** autenticación, práctica, telemetría, guardado, historial, evidencia, Noah y aviso académico están enlazados sin rutas simuladas.
+6. **Trazabilidad:** las decisiones del POC tienen historias, criterios de aceptación y pruebas asociadas; los pendientes no se presentan como implementados.

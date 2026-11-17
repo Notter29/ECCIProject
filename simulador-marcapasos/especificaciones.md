@@ -232,7 +232,7 @@ Detección
 Análisis del evento
        ↓
 ¿Debe estimular?
-    ↙️       ↘️
+
    NO       SÍ
    ↓         ↓
 Esperar   Pulso simulado
@@ -482,15 +482,15 @@ El programador debe implementar inicialmente:
 
 Debe contener:
 
-*▶️ INICIAR*
+* INICIAR*
 
-*Ⅱ PAUSAR*
+*PAUSAR*
 
-*■ DETENER*
+*DETENER*
 
-*↻ REINICIAR*
+*REINICIAR*
 
-*💾 GUARDAR SIMULACIÓN*
+* GUARDAR SIMULACIÓN*
 
 ---
 
@@ -504,7 +504,7 @@ ECG SIMULADO
 DETECCIÓN
       ↓
 ¿SE DETECTA ACTIVIDAD?
-      ↙️              ↘️
+
     SÍ                NO
     ↓                  ↓
 INHIBIR PULSO     ESPERAR TIEMPO
