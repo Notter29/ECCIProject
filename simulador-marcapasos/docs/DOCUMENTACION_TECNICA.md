@@ -167,7 +167,7 @@ OpenAPI local: `http://localhost:8000/docs`. Códigos habituales: 401 no autenti
 
 ## 9. Configuración y ejecución
 
-Requisitos: Python 3, Node.js LTS y npm. Ver [README.md](../README.md) para `iniciar.bat` y comandos manuales.
+Requisitos mínimos: Python 3.10; Node.js compatible con Angular 22 (Node 20.19+, 22.12+ o 24+) y npm. El entorno usado para la implementación verificable usa Node.js 24.21.0 y npm 11.19.0. Ver [README.md](../README.md) para `iniciar.bat` y comandos manuales.
 
 Crear `backend/.env` desde `.env.example`. Ejemplo de desarrollo:
 
@@ -287,12 +287,16 @@ Estado validado en desarrollo: build frontend, 2 tests Angular, 3 tests de hash/
 
 | Capa | Tecnología actual | Actualización documentada |
 |---|---|---|
-| Frontend | Angular standalone, TypeScript, RxJS, FormsModule, Signals y Canvas | Se incorporaron vistas de autenticación y equipo en `frontend/src/app/componentes/`; el acceso principal continúa conectado desde `App`. |
+| Frontend | Angular 22.2.0 standalone, TypeScript 6.0.3, RxJS 7.8.2, FormsModule, Signals y Canvas | El `package-lock.json` fija Angular 22.2.0, TypeScript 6.0.3 y RxJS 7.8.2. Las vistas de autenticación y equipo están en `frontend/src/app/componentes/`. |
+| Herramientas frontend | Angular CLI/build 22.2.0, npm 11.19.0, Vitest 4.1.11, jsdom 28.1.0 y Prettier 3.9.9 | El entorno instalado usa Node.js 24.21.0. Estas versiones provienen de `package-lock.json` o de la configuración del proyecto. |
 | Comunicación | HTTP REST, JWT bearer e interceptor Angular | Los recursos privados usan token y comprobación de propietario en backend. |
-| Backend | Python 3.10+, FastAPI, Pydantic, SQLAlchemy y Uvicorn | Los routers separados siguen los dominios de usuarios, sesiones, telemetría y Noah. |
-| Seguridad | Argon2id, bcrypt heredado, JWT HS256 y validación Pydantic | Las contraseñas nuevas usan Argon2id y los hashes bcrypt heredados se migran al iniciar sesión. |
-| Persistencia | SQLite local; PostgreSQL configurable | No está validado el uso de SQLite para una población simultánea de 800 alumnos. |
-| Documentación | Markdown y diagramas Mermaid | El mismo estado documental debe mantenerse alineado con el repositorio y las capacidades reales. |
+| Backend | Python 3.10+; FastAPI 0.115+; Uvicorn 0.30.6+; Pydantic 2.11+; SQLAlchemy 2.0.35+ | Los routers separados siguen los dominios de usuarios, sesiones, telemetría y Noah. El archivo `requirements.txt` declara mínimos, no fija una compilación reproducible exacta. |
+| Seguridad | Passlib 1.7.4+, bcrypt menor que 4.1, PyJWT 2.10.1+, Argon2id y JWT HS256 | Las contraseñas nuevas usan Argon2id; los hashes bcrypt heredados se migran al iniciar sesión. |
+| Persistencia | SQLite local; PostgreSQL con psycopg 3.2.3+ | No está validado el uso de SQLite para una población simultánea de 800 alumnos. |
+| Servicios HTTP auxiliares | python-multipart 0.0.12+, python-dotenv 1.0.1+ y HTTPX 0.27.2+ | Estas versiones son mínimos declarados en `backend/requirements.txt`. |
+| Documentación | Markdown y diagramas Mermaid | El estado documental debe mantenerse alineado con el repositorio y las capacidades reales. |
+
+Las restricciones completas del backend están en [backend/requirements.txt](../backend/requirements.txt). Para instalar de forma reproducible, el proyecto debe fijar versiones exactas en ese archivo o agregar un archivo de bloqueo generado para el entorno aprobado. El hecho de que una dependencia tenga un mínimo no significa que su versión haya sido probada automáticamente con el resto del stack.
 
 ### 13.3 Coherencia entre estilo y implementación
 

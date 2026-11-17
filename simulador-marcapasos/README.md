@@ -17,7 +17,7 @@ Plataforma web educativa e interactiva diseñada para la enseñanza de la estimu
 
 ### Requisitos Previos
 * **Python 3.10+** (Asegurarse de marcar la casilla "Add Python to PATH" durante la instalación).
-* **Node.js LTS (v18 o superior)** y **npm**.
+* **Node.js 20.19+, 22.12+ o 24+**, compatible con Angular 22, y **npm 11+**.
 
 ---
 
@@ -110,8 +110,9 @@ Abre tu navegador en `http://localhost:4200`.
 
 ## Tecnologías Utilizadas
 
-* **Frontend**: Angular 18 (Standalone Components, Signals, Canvas API a 60 FPS, SCSS).
-* **Backend**: FastAPI (Python 3.10+, Uvicorn 0.30.6, Pydantic v2 2.11.0, SQLAlchemy ORM 2.0.35).
+* **Frontend**: Angular 22.2.0 (Standalone Components, Signals, Canvas API a 60 FPS, SCSS), TypeScript 6.0.3 y RxJS 7.8.2.
+* **Herramientas frontend**: Angular CLI/build 22.2.0, npm 11.19.0, Vitest 4.1.11 y jsdom 28.1.0.
+* **Backend**: FastAPI 0.115+, Uvicorn 0.30.6+, Pydantic 2.11+, SQLAlchemy ORM 2.0.35+ y Python 3.10+.
 * **Base de Datos**: SQLite3 (`marcapasos.db`) con autenticación JWT y Argon2id / bcrypt.
 * **Arquitectura**: Monolito modular desacoplado.
 
