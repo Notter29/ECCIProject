@@ -1,0 +1,162 @@
+<mxfile host="app.diagrams.net" modified="2026-11-17T19:58:00.000Z" agent="Copilot" version="24.7.17" type="device">
+  <diagram id="galix-component-diagram" name="Diagrama de componentes">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="GALIX PACESTAR — Diagrama de componentes UML" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1;fontColor=#17365D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1000" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Arquitectura actual · Angular + API FastAPI modular · Persistencia SQLite por defecto" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontColor=#52657A;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="1100" height="28" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="system" value="&lt;&lt;system&gt;&gt; GALIX PACESTAR" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#17365D;strokeWidth=2;dashed=1;verticalAlign=top;align=left;spacingLeft=14;spacingTop=8;fontSize=16;fontStyle=1;fontColor=#17365D;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="1240" height="770" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendBoundary" value="&lt;&lt;subsystem&gt;&gt; Frontend web (Angular 22.2.0)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F1F8FE;strokeColor=#5B9BD5;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=12;spacingTop=8;fontSize=15;fontStyle=1;fontColor=#174A72;" vertex="1" parent="1">
+          <mxGeometry x="60" y="140" width="560" height="700" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendBoundary" value="&lt;&lt;subsystem&gt;&gt; Backend modular (Python / FastAPI)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F4F8F3;strokeColor=#70AD47;strokeWidth=1.5;verticalAlign=top;align=left;spacingLeft=12;spacingTop=8;fontSize=15;fontStyle=1;fontColor=#365B23;" vertex="1" parent="1">
+          <mxGeometry x="640" y="140" width="620" height="700" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="app" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;App / Shell&lt;/b&gt;&lt;br&gt;app.ts · app.html&lt;br&gt;Navegación y estado de vistas" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D9EAF7;strokeColor=#4A86B8;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="100" y="190" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="auth" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;AuthPanel&lt;/b&gt;&lt;br&gt;Registro e inicio de sesión" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D9EAF7;strokeColor=#4A86B8;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="100" y="320" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="monitor" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Monitor ECG&lt;/b&gt;&lt;br&gt;Canvas sintético · PACE / SENSE" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D9EAF7;strokeColor=#4A86B8;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="100" y="440" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="views" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Vistas de la aplicación&lt;/b&gt;&lt;br&gt;Equipo · Simulador · Biblioteca&lt;br&gt;Mantenimiento · Historial" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D9EAF7;strokeColor=#4A86B8;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="100" y="560" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="noahUi" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;NoahChat&lt;/b&gt;&lt;br&gt;Interfaz del tutor" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D9EAF7;strokeColor=#4A86B8;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="350" y="440" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="service" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;MarcapasosService&lt;/b&gt;&lt;br&gt;HttpClient · contratos API&lt;br&gt;servicios/marcapasos.ts" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#C6E0B4;strokeColor=#70AD47;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="350" y="190" width="250" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="authStorage" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;AuthStorage + interceptor&lt;/b&gt;&lt;br&gt;Token y usuario en memoria&lt;br&gt;Bearer JWT hacia API" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#C6E0B4;strokeColor=#70AD47;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="380" y="320" width="220" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendNote" value="Señales ECG generadas localmente en navegador. La interfaz no controla hardware médico." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="170" y="730" width="350" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="api" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;API REST FastAPI&lt;/b&gt;&lt;br&gt;main.py · CORS · OpenAPI&lt;br&gt;Routers: usuarios, sesiones,&lt;br&gt;simulaciones, telemetría y Noah" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="700" y="190" width="270" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="security" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Seguridad&lt;/b&gt;&lt;br&gt;JWT · Argon2id&lt;br&gt;Autorización por propietario" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="190" width="210" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="simulation" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Motor didáctico&lt;/b&gt;&lt;br&gt;simulacion.py&lt;br&gt;Reglas sintéticas de captura" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="700" y="390" width="230" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="noah" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Tutor Noah&lt;/b&gt;&lt;br&gt;noah_tutor.py&lt;br&gt;Respuesta local + LLM opcional" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="980" y="390" width="240" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="orm" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Persistencia SQLAlchemy&lt;/b&gt;&lt;br&gt;Modelos y sesiones ORM&lt;br&gt;database.py · models.py" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#D5E8D4;strokeColor=#82B366;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="800" y="590" width="270" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendNote" value="Los routers actuales acceden a SQLAlchemy directamente en algunos flujos; una capa separada de repositorios/casos de uso es evolución pendiente." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FFF2CC;strokeColor=#D6B656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="710" y="730" width="500" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="student" value="&lt;&lt;actor&gt;&gt;&lt;br&gt;Estudiante" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="5" y="215" width="45" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="studentLink" value="" style="endArrow=block;endFill=1;strokeColor=#5B6573;strokeWidth=1.5;html=1;" edge="1" parent="1" source="student" target="app">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="database" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Base de datos&lt;/b&gt;&lt;br&gt;SQLite (por defecto)&lt;br&gt;PostgreSQL configurable&lt;br&gt;psycopg 3.2.3+" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="570" width="220" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="llm" value="&lt;&lt;component&gt;&gt;&lt;br&gt;&lt;b&gt;Proveedor LLM&lt;/b&gt;&lt;br&gt;OpenAI-compatible&lt;br&gt;Opcional por configuración" style="shape=umlComponent;whiteSpace=wrap;html=1;rounded=0;fillColor=#E1D5E7;strokeColor=#9673A6;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="370" width="220" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Assembly connector: required IAPI REST from Angular service to interface provided by FastAPI -->
+        <mxCell id="servicePort" value="" style="shape=rect;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="594" y="229" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="serviceStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;html=1;" edge="1" parent="1" source="servicePort" target="reqApi">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="reqApi" value="" style="shape=umlRequiredInterface;whiteSpace=wrap;html=1;direction=east;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="615" y="218" width="30" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiReqStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;html=1;" edge="1" parent="1" source="reqApi" target="providedApi">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="providedApi" value="" style="shape=umlProvidedInterface;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="665" y="218" width="30" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiPort" value="" style="shape=rect;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#333333;strokeWidth=1.5;" vertex="1" parent="1">
+          <mxGeometry x="694" y="229" width="12" height="12" as="geometry"/>
+        </mxCell>
+        <mxCell id="providedApiStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;html=1;" edge="1" parent="1" source="providedApi" target="apiPort">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiPortStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;html=1;" edge="1" parent="1" source="apiPort" target="api">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="httpLabel" value="IAPI REST&lt;br&gt;HTTPS/JSON + JWT" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=11;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="430" y="250" width="140" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="serviceAuth" value="token en memoria" style="endArrow=block;endFill=0;strokeColor=#5B9BD5;strokeWidth=1.3;dashed=1;html=1;fontSize=10;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitPerimeter=1;entryPerimeter=1;" edge="1" parent="1" source="service" target="authStorage">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="475" y="300"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Backend internal dependencies -->
+        <mxCell id="apiSecurity" value="" style="endArrow=block;endFill=0;strokeColor=#70AD47;strokeWidth=1.4;dashed=1;html=1;" edge="1" parent="1" source="api" target="security">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiSimulation" value="" style="endArrow=block;endFill=0;strokeColor=#70AD47;strokeWidth=1.4;dashed=1;html=1;" edge="1" parent="1" source="api" target="simulation">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiNoah" value="" style="endArrow=block;endFill=0;strokeColor=#70AD47;strokeWidth=1.4;dashed=1;html=1;" edge="1" parent="1" source="api" target="noah">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="apiOrm" value="" style="endArrow=block;endFill=0;strokeColor=#70AD47;strokeWidth=1.4;dashed=1;html=1;" edge="1" parent="1" source="api" target="orm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="noahOrm" value="" style="endArrow=block;endFill=0;strokeColor=#70AD47;strokeWidth=1.4;dashed=1;html=1;" edge="1" parent="1" source="noah" target="orm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- Required-interface symbols for external services -->
+        <mxCell id="databaseRequired" value="" style="shape=umlRequiredInterface;whiteSpace=wrap;html=1;direction=east;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1275" y="620" width="36" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="databaseSocketLine" value="" style="endArrow=none;startArrow=none;strokeColor=#9673A6;strokeWidth=1.5;html=1;" edge="1" parent="1" source="orm" target="databaseRequired">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="databaseReqStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;html=1;" edge="1" parent="1" source="databaseRequired" target="database">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="llmRequired" value="" style="shape=umlRequiredInterface;whiteSpace=wrap;html=1;direction=east;fillColor=#FFFFFF;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="1275" y="405" width="36" height="36" as="geometry"/>
+        </mxCell>
+        <mxCell id="llmSocketLine" value="" style="endArrow=none;startArrow=none;strokeColor=#9673A6;strokeWidth=1.5;dashed=1;html=1;" edge="1" parent="1" source="noah" target="llmRequired">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="llmReqStem" value="" style="endArrow=none;startArrow=none;strokeColor=#333333;strokeWidth=1.5;dashed=1;html=1;" edge="1" parent="1" source="llmRequired" target="llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Nomenclatura UML&lt;/b&gt;&lt;br&gt;Rectángulo con icono = componente · Cuadro pequeño = puerto · Lollipop = interfaz proporcionada · Socket = interfaz requerida&lt;br&gt;Línea discontinua con flecha = dependencia interna · Línea discontinua a LLM = integración opcional&lt;br&gt;La autenticación se conserva en memoria en el cliente; el backend valida el JWT y la propiedad del recurso." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#A6A6A6;fontSize=12;align=left;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="890" width="1500" height="75" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
